@@ -7,22 +7,35 @@ import Head from 'next/head';
 import React from 'react';
 import { SWRConfig } from 'swr';
 import { Nav } from '../components/Nav';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import { Router } from 'next/dist/client/router';
 
 axios.defaults.baseURL = 'http://localhost:4001';
+
+Router.events.on('routeChangeStart', () => {
+  NProgress.start();
+});
+Router.events.on('routeChangeComplete', () => {
+  NProgress.done();
+});
+Router.events.on('routeChangeError', () => {
+  NProgress.remove();
+});
 
 // Create a theme instance.
 export const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#556cd6'
+      main: '#556cd6',
     },
     error: {
-      main: red.A400
+      main: red.A400,
     },
     background: {
-      default: '#fff'
-    }
-  }
+      default: '#fff',
+    },
+  },
 });
 
 export default class MyApp extends App {
@@ -51,7 +64,7 @@ export default class MyApp extends App {
           <CssBaseline />
           <Nav />
           <SWRConfig
-            value={{ fetcher: (url: string) => axios(url).then(r => r.data) }}
+            value={{ fetcher: (url: string) => axios(url).then((r) => r.data) }}
           >
             <Container maxWidth={false}>
               <Box marginTop={2}>
@@ -64,3 +77,4 @@ export default class MyApp extends App {
     );
   }
 }
+
