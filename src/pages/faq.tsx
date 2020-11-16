@@ -1,4 +1,9 @@
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography } from '@material-ui/core';
+import {
+  ExpansionPanel,
+  AccordionDetails,
+  Typography,
+  AccordionSummary,
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { GetStaticProps } from 'next';
 import { FaqModel } from '../../api/Faq';
@@ -13,20 +18,16 @@ export default function Faq({ faq }: FaqProps) {
     <div>
       {faq.map((f) => (
         <ExpansionPanel key={f.id}>
-          <ExpansionPanelSummary
+          <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>
-              {f.question}
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              {f.answer}
-            </Typography>
-          </ExpansionPanelDetails>
+            <Typography>{f.question}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>{f.answer}</Typography>
+          </AccordionDetails>
         </ExpansionPanel>
       ))}
     </div>
