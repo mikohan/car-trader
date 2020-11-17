@@ -137,7 +137,12 @@ export default function Home({ makes, models }: HomeProps) {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <Button type="submit" variant="outlined" color="primary">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
                     Apply
                   </Button>
                 </Grid>
