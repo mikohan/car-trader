@@ -9,10 +9,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { getAsString } from '~/helpers';
 import { getModels } from '~/database/getModel';
 import { ModelSelect } from '~/components/ModelSelect';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +39,6 @@ interface HomeProps {
 const prices = [500, 1000, 5000, 15000, 25000, 50000, 250000];
 
 export default function Home({ makes, models }: HomeProps) {
-  console.log(models);
   const classes = useStyles();
   const { query } = useRouter();
   const initialValues = {
@@ -48,9 +48,21 @@ export default function Home({ makes, models }: HomeProps) {
     max: getAsString(query.max) || 'all',
   };
 
+  function handleSubmit(values: any) {
+    router.push({
+      pathname: '/',
+      query: { ...values, page: 1 },
+    });
+  }
+
   return (
     <div>
-      <Formik initialValues={initialValues} onSubmit={() => {}}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values) => {
+          handleSubmit(values);
+        }}
+      >
         {({ values }) => (
           <Form>
             <Paper className={classes.paper} elevation={3}>
@@ -75,7 +87,11 @@ export default function Home({ makes, models }: HomeProps) {
                   </FormControl>
                 </Grid>
                 <Grid xs={12} sm={6} item>
-                  <ModelSelect name="model" models={models} />
+                  <ModelSelect
+                    name="model"
+                    models={models}
+                    make={values.make}
+                  />
                 </Grid>
                 <Grid xs={12} sm={6} item>
                   <FormControl
@@ -119,6 +135,11 @@ export default function Home({ makes, models }: HomeProps) {
                       ))}
                     </Field>
                   </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button type="submit" variant="outlined" color="primary">
+                    Apply
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>

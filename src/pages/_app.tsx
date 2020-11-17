@@ -11,8 +11,6 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { Router } from 'next/dist/client/router';
 
-axios.defaults.baseURL = 'http://localhost:4001';
-
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
 });
@@ -77,4 +75,3 @@ export default class MyApp extends App {
     );
   }
 }
-
