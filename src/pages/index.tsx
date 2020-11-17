@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { getMakes } from '~/database/getMakes';
 import { IMake, IModel } from '~/interfaces/Car';
@@ -8,12 +7,12 @@ import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useRouter } from 'next/router';
 import { getAsString } from '~/helpers';
 import { getModels } from '~/database/getModel';
+import { ModelSelect } from '~/components/ModelSelect';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,10 +42,10 @@ export default function Home({ makes, models }: HomeProps) {
   const classes = useStyles();
   const { query } = useRouter();
   const initialValues = {
-    make: query.make || 'all',
-    model: query.model || 'all',
-    min: query.min || 'all',
-    max: query.max || 'all',
+    make: getAsString(query.make) || 'all',
+    model: getAsString(query.model) || 'all',
+    min: getAsString(query.min) || 'all',
+    max: getAsString(query.max) || 'all',
   };
 
   return (
@@ -76,18 +75,7 @@ export default function Home({ makes, models }: HomeProps) {
                   </FormControl>
                 </Grid>
                 <Grid xs={12} sm={6} item>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    className={classes.formControl}
-                  >
-                    <InputLabel id="model">Model</InputLabel>
-                    <Select labelId="model" label="Model">
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                  <ModelSelect name="model" models={models} />
                 </Grid>
                 <Grid xs={12} sm={6} item>
                   <FormControl
