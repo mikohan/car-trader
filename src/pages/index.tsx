@@ -52,7 +52,7 @@ export default function Search({ makes, models, singleColumn }: SearchProps) {
 
   function handleSubmit(values: any) {
     router.push({
-      pathname: '/',
+      pathname: '/car',
       query: { ...values, page: 1 },
     });
   }

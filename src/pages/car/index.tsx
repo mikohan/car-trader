@@ -21,11 +21,11 @@ export default function CarList({
 }: CarListProps) {
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={5} lg={2}>
+      <Grid item xs={12} sm={5} md={3} lg={2}>
         <Search singleColumn makes={makes} models={models} />
       </Grid>
       <Grid item xs={12} sm={7} md={9} lg={10}>
-        <pre>{JSON.stringify(makes, null, 4)}</pre>
+        <pre>{JSON.stringify({ cars, totalPages }, null, 4)}</pre>
       </Grid>
     </Grid>
   );
