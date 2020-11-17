@@ -30,11 +30,7 @@ interface HomeProps {
 
 export default function Home({ makes }: HomeProps) {
   const classes = useStyles();
-  const [age, setAge] = useState('');
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
-  };
   return (
     <div>
       <Formik initialValues={{}} onSubmit={() => {}}>
@@ -47,16 +43,8 @@ export default function Home({ makes }: HomeProps) {
                     variant="outlined"
                     className={classes.formControl}
                   >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                      Age
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
+                    <InputLabel id="make">Make</InputLabel>
+                    <Select labelId="make" label="Make">
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
@@ -71,16 +59,8 @@ export default function Home({ makes }: HomeProps) {
                     variant="outlined"
                     className={classes.formControl}
                   >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                      Age
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
+                    <InputLabel id="model">Model</InputLabel>
+                    <Select labelId="model" label="Model">
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
@@ -95,16 +75,8 @@ export default function Home({ makes }: HomeProps) {
                     variant="outlined"
                     className={classes.formControl}
                   >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                      Age
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
+                    <InputLabel id="min">Min Price</InputLabel>
+                    <Select labelId="min" label="Make">
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
@@ -119,16 +91,8 @@ export default function Home({ makes }: HomeProps) {
                     variant="outlined"
                     className={classes.formControl}
                   >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                      Age
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
+                    <InputLabel id="max">Max Price</InputLabel>
+                    <Select labelId="max" label="Max Price">
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
