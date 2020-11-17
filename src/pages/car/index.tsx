@@ -5,6 +5,7 @@ import { getModels } from '~/database/getModel';
 import { GetServerSideProps } from 'next';
 import { IMake, IModel, ICar } from '~/interfaces/Car';
 import Search from '~/pages/index';
+import { getPaginatedCars } from '~/database/getPaginatedCars';
 
 interface CarListProps {
   makes: IMake[];
@@ -35,11 +36,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const param = context.query!.make;
 
   const make = getAsString(param);
-  const [makes, models] = await Promise.all([getMakes(), getModels(make)]);
+  const [makes, models, pagination] = await Promise.all([
+    getMakes(),
+    getModels(make),
+    getPaginatedCars(context.query),
+  ]);
   return {
     props: {
       makes: makes,
       models: models,
+      cars: pagination.cars,
+      totalPages: pagination.totalPages,
     },
   };
 };
