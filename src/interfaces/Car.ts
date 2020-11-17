@@ -14,3 +14,8 @@ export interface IMake {
   make: string;
   count: number;
 }
+
+export interface IModel {
+  model: string;
+  count: number;
+}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { getMakes } from '~/database/getMakes';
-import { IMake } from '~/interfaces/Car';
+import { IMake, IModel } from '~/interfaces/Car';
 import { Formik, Form, Field } from 'formik';
 import { Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useRouter } from 'next/router';
+import { getAsString } from '~/helpers';
+import { getModels } from '~/database/getModel';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,11 +33,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface HomeProps {
   makes: IMake[];
+  models: IModel[];
 }
 
 const prices = [500, 1000, 5000, 15000, 25000, 50000, 250000];
 
-export default function Home({ makes }: HomeProps) {
+export default function Home({ makes, models }: HomeProps) {
+  console.log(models);
   const classes = useStyles();
   const { query } = useRouter();
   const initialValues = {
@@ -138,10 +142,14 @@ export default function Home({ makes }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const makes: IMake[] = await getMakes();
+  const param = context.query!.make;
+
+  const make = getAsString(param);
+  const [makes, models] = await Promise.all([getMakes(), getModels(make)]);
   return {
     props: {
       makes: makes,
+      models: models,
     },
   };
 };
