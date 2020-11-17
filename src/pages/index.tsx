@@ -50,19 +50,19 @@ export default function Search({ makes, models, singleColumn }: SearchProps) {
     max: getAsString(query.max) || 'all',
   };
 
-  function handleSubmit(values: any) {
-    router.push({
-      pathname: '/car',
-      query: { ...values, page: 1 },
-    });
-  }
-
   return (
     <div>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          handleSubmit(values);
+          router.push(
+            {
+              pathname: '/car',
+              query: { ...values, page: 1 },
+            },
+            undefined,
+            { shallow: true }
+          );
         }}
       >
         {({ values }) => (
