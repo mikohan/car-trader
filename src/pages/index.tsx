@@ -92,7 +92,7 @@ export default function Home({ makes }: HomeProps) {
                     className={classes.formControl}
                   >
                     <InputLabel id="min">Min Price</InputLabel>
-                    <Field name="min" as={Select} labelId="min" label="Make">
+                    <Field name="min" as={Select} labelId="min" label="Min">
                       <MenuItem value="all">
                         <em>All Prices</em>
                       </MenuItem>
@@ -111,14 +111,21 @@ export default function Home({ makes }: HomeProps) {
                     className={classes.formControl}
                   >
                     <InputLabel id="max">Max Price</InputLabel>
-                    <Select labelId="max" label="Max Price">
-                      <MenuItem value="">
+                    <Field
+                      name="max"
+                      as={Select}
+                      labelId="max"
+                      label="Max Price"
+                    >
+                      <MenuItem value="all">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                      {prices.map((price: number) => (
+                        <MenuItem key={price} value={price}>
+                          {price}
+                        </MenuItem>
+                      ))}
+                    </Field>
                   </FormControl>
                 </Grid>
               </Grid>
