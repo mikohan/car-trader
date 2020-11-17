@@ -31,14 +31,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface HomeProps {
+interface SearchProps {
   makes: IMake[];
   models: IModel[];
+  singleColumn?: boolean;
 }
 
 const prices = [500, 1000, 5000, 15000, 25000, 50000, 250000];
 
-export default function Home({ makes, models }: HomeProps) {
+export default function Search({ makes, models, singleColumn }: SearchProps) {
+  const smValue = singleColumn ? 12 : 6;
   const classes = useStyles();
   const { query } = useRouter();
   const initialValues = {
@@ -67,7 +69,7 @@ export default function Home({ makes, models }: HomeProps) {
           <Form>
             <Paper className={classes.paper} elevation={3}>
               <Grid container spacing={3}>
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={smValue} item>
                   <FormControl
                     fullWidth
                     variant="outlined"
@@ -86,14 +88,14 @@ export default function Home({ makes, models }: HomeProps) {
                     </Field>
                   </FormControl>
                 </Grid>
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={smValue} item>
                   <ModelSelect
                     name="model"
                     models={models}
                     make={values.make}
                   />
                 </Grid>
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={smValue} item>
                   <FormControl
                     fullWidth
                     variant="outlined"
@@ -112,7 +114,7 @@ export default function Home({ makes, models }: HomeProps) {
                     </Field>
                   </FormControl>
                 </Grid>
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={smValue} item>
                   <FormControl
                     fullWidth
                     variant="outlined"
