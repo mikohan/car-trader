@@ -33,11 +33,16 @@ interface HomeProps {
   makes: IMake[];
 }
 
+const prices = [500, 1000, 5000, 15000, 25000, 50000, 250000];
+
 export default function Home({ makes }: HomeProps) {
   const classes = useStyles();
   const { query } = useRouter();
   const initialValues = {
     make: query.make || 'all',
+    model: query.model || 'all',
+    min: query.min || 'all',
+    max: query.max || 'all',
   };
 
   return (
@@ -55,11 +60,11 @@ export default function Home({ makes }: HomeProps) {
                   >
                     <InputLabel id="make">Make</InputLabel>
                     <Field name="make" as={Select} labelId="make" label="Make">
-                      <MenuItem value="">
-                        <em>None</em>
+                      <MenuItem value="all">
+                        <em>All Makes</em>
                       </MenuItem>
                       {makes.map((make: IMake) => (
-                        <MenuItem value={make.make}>
+                        <MenuItem key={make.make} value={make.make}>
                           {`${make.make} (${make.count})`}
                         </MenuItem>
                       ))}
@@ -87,14 +92,16 @@ export default function Home({ makes }: HomeProps) {
                     className={classes.formControl}
                   >
                     <InputLabel id="min">Min Price</InputLabel>
-                    <Select labelId="min" label="Make">
-                      <MenuItem value="">
-                        <em>None</em>
+                    <Field name="min" as={Select} labelId="min" label="Make">
+                      <MenuItem value="all">
+                        <em>All Prices</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                      {prices.map((price: number) => (
+                        <MenuItem key={price} value={price}>
+                          {price}
+                        </MenuItem>
+                      ))}
+                    </Field>
                   </FormControl>
                 </Grid>
                 <Grid xs={12} sm={6} item>
