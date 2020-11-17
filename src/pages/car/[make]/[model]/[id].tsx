@@ -42,7 +42,7 @@ export default function CarDetails({ car }: CarDetailsProps) {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
-          <Grid item>
+          <Grid item xs={12} sm={6} md={7}>
             <ButtonBase className={classes.image}>
               <img className={classes.img} alt="complex" src={car.photoUrl} />
             </ButtonBase>
@@ -50,20 +50,29 @@ export default function CarDetails({ car }: CarDetailsProps) {
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Standard license
+                <Typography gutterBottom variant="h5">
+                  {`${car.make} ${car.model}`}
                 </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Full resolution 1920x1080 • JPEG
+                <Typography variant="h4" gutterBottom>
+                  {`$ ${car.price}`}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  ID: 1030114
+                  Year: {car.year}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: {car.id}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Milege: {car.kilometers}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Fuel: {car.fuelType}
+                </Typography>
+                <Typography variant="body1" color="textSecondary">
+                  Fuel: {car.details}
                 </Typography>
               </Grid>
               <Grid item></Grid>
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle1">$19.00</Typography>
             </Grid>
           </Grid>
         </Grid>
