@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { getMakes } from '~/database/getMakes';
 import { IMake } from '~/interfaces/Car';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -11,11 +11,16 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    paper: {
+      margin: 'auto',
+      maxWidth: 800,
+      padding: theme.spacing(3),
+    },
     formControl: {
-      margin: theme.spacing(1),
       minWidth: 120,
     },
     selectEmpty: {
@@ -30,32 +35,40 @@ interface HomeProps {
 
 export default function Home({ makes }: HomeProps) {
   const classes = useStyles();
+  const { query } = useRouter();
+  const initialValues = {
+    make: query.make || 'all',
+  };
 
   return (
     <div>
-      <Formik initialValues={{}} onSubmit={() => {}}>
+      <Formik initialValues={initialValues} onSubmit={() => {}}>
         {({ values }) => (
           <Form>
-            <Paper elevation={3}>
-              <Grid container>
+            <Paper className={classes.paper} elevation={3}>
+              <Grid container spacing={3}>
                 <Grid xs={12} sm={6} item>
                   <FormControl
+                    fullWidth
                     variant="outlined"
                     className={classes.formControl}
                   >
                     <InputLabel id="make">Make</InputLabel>
-                    <Select labelId="make" label="Make">
+                    <Field name="make" as={Select} labelId="make" label="Make">
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                      {makes.map((make: IMake) => (
+                        <MenuItem value={make.make}>
+                          {`${make.make} (${make.count})`}
+                        </MenuItem>
+                      ))}
+                    </Field>
                   </FormControl>
                 </Grid>
                 <Grid xs={12} sm={6} item>
                   <FormControl
+                    fullWidth
                     variant="outlined"
                     className={classes.formControl}
                   >
@@ -64,14 +77,12 @@ export default function Home({ makes }: HomeProps) {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid xs={12} sm={6} item>
                   <FormControl
+                    fullWidth
                     variant="outlined"
                     className={classes.formControl}
                   >
@@ -88,6 +99,7 @@ export default function Home({ makes }: HomeProps) {
                 </Grid>
                 <Grid xs={12} sm={6} item>
                   <FormControl
+                    fullWidth
                     variant="outlined"
                     className={classes.formControl}
                   >
