@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.9.1",
     "@types/nprogress": "^0.2.0",
     "axios": "^0.19.2",
+    "formik": "^2.2.5",
     "next": "9.3.6",
     "nprogress": "^0.2.0",
     "react": "16.13.1",
