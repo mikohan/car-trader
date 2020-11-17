@@ -1,15 +1,15 @@
 import { GetServerSideProps } from 'next';
 import { getMakes } from '~/database/getMakes';
-import { CarModel } from 'api/Car';
+import { IMake } from '~/interfaces/Car';
 
 interface HomeProps {
-  makes: CarModel[];
+  makes: IMake[];
 }
 
 export default function Home({ makes }: HomeProps) {
   return (
     <div>
-      {makes.map((make: CarModel) => (
+      {makes.map((make: IMake) => (
         <pre>{JSON.stringify(make)}</pre>
       ))}
     </div>
@@ -17,7 +17,7 @@ export default function Home({ makes }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const makes = await getMakes();
+  const makes: IMake[] = await getMakes();
   return {
     props: {
       makes: makes,
