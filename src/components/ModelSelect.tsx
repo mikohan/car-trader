@@ -36,6 +36,7 @@ export function ModelSelect(props: ModelSelectProps) {
   const classes = useStyles();
   const [field] = useField({ name: props.name });
   const { data } = useSWR(`/api/models?make=${make}`, {
+    dedupingInterval: 600000,
     onSuccess: (newValues) => {
       if (!newValues.map((a: any) => a.model).includes(field.value)) {
         // we want to make this field.value = 'all'
