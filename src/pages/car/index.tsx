@@ -10,9 +10,12 @@ import Pagination from '@material-ui/lab/Pagination';
 import PaginationItem from '@material-ui/lab/PaginationItem';
 import { useRouter } from 'next/router';
 import { PaginationRenderItemParams } from '@material-ui/lab';
-import { ParsedUrlQuery } from 'querystring';
+import { ParsedUrlQuery, stringify } from 'querystring';
 import Link from 'next/link';
 import { forwardRef } from 'react';
+import useSWR from 'swr';
+import { useState } from 'react';
+import deepEqual from 'fast-deep-equal';
 
 interface CarListProps {
   makes: IMake[];
@@ -28,6 +31,13 @@ export default function CarList({
   totalPages,
 }: CarListProps) {
   const { query } = useRouter();
+  const [serverQuery] = useState(query);
+  const { data } = useSWR(`/api/cars?${stringify(query)}`, {
+    dedupingInterval: 15000,
+    initialData: deepEqual(query, serverQuery)
+      ? { cars, totalPages }
+      : undefined,
+  });
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={5} md={3} lg={2}>
@@ -46,7 +56,7 @@ export default function CarList({
             />
           )}
         />
-        <pre>{JSON.stringify({ cars, totalPages }, null, 4)}</pre>
+        <pre>{JSON.stringify({ data, totalPages }, null, 4)}</pre>
       </Grid>
     </Grid>
   );
