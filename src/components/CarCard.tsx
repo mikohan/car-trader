@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,31 +42,33 @@ export default function CarCard({ car }: CarCardProps) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} elevation={3}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <Typography variant="h6" color="textPrimary">
-            $ {car.price}
+    <Link href={`/car/${car.make}/${car.model}/${car.id}`}>
+      <Card className={classes.root} elevation={3}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          }
+          action={
+            <Typography variant="h6" color="textPrimary">
+              $ {car.price}
+            </Typography>
+          }
+          title={`${car.make} ${car.model}`}
+          subheader={`Year ${car.year}`}
+        />
+        <CardMedia
+          className={classes.media}
+          image={car.photoUrl}
+          title="Paella dish"
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {car.details}
           </Typography>
-        }
-        title={`${car.make} ${car.model}`}
-        subheader={`Year ${car.year}`}
-      />
-      <CardMedia
-        className={classes.media}
-        image={car.photoUrl}
-        title="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {car.details}
-        </Typography>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
