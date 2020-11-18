@@ -42,14 +42,14 @@ export default function CarList({
       </Grid>
       <Grid container item xs={12} sm={7} md={9} lg={10} spacing={3}>
         <Grid item xs={12}>
-          <CarPagination totalPages={totalPages} />
+          <CarPagination totalPages={data?.totalPages} />
         </Grid>
         {(data?.cars || []).map((car: ICar) => (
           <Grid key={car.id} item xs={12} sm={6}>
             <CarCard car={car} />
           </Grid>
         ))}
-        <CarPagination totalPages={totalPages} />
+        <CarPagination totalPages={data?.totalPages} />
       </Grid>
     </Grid>
   );
