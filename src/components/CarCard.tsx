@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface CarCardProps {
   car: ICar;
+  loading?: boolean;
 }
 export default function CarCard({ car }: CarCardProps) {
   const classes = useStyles();

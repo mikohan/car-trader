@@ -9,7 +9,7 @@ import { getPaginatedCars } from '~/database/getPaginatedCars';
 import { useRouter } from 'next/router';
 import { stringify } from 'querystring';
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import deepEqual from 'fast-deep-equal';
 import { CarPagination } from '~/components/CarPagination';
 import CarCard from '~/components/CarCard';
@@ -29,12 +29,20 @@ export default function CarList({
 }: CarListProps) {
   const { query } = useRouter();
   const [serverQuery] = useState(query);
-  const { data } = useSWR(`/api/cars?${stringify(query)}`, {
-    dedupingInterval: 60000,
-    initialData: deepEqual(query, serverQuery)
-      ? { cars, totalPages }
-      : undefined,
-  });
+  useEffect(() => {}, []);
+  const sleep = (ms: number) => new Promise((r: any) => setTimeout(r, ms));
+  function getData(query: any) {
+    sleep(3000);
+    const { data } = useSWR(`/api/cars?${stringify(query)}`, {
+      dedupingInterval: 60000,
+      initialData: deepEqual(query, serverQuery)
+        ? { cars, totalPages }
+        : undefined,
+    });
+    return data;
+  }
+  const data = getData(query);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={5} md={3} lg={2}>
