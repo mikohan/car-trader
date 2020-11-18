@@ -6,16 +6,12 @@ import { GetServerSideProps } from 'next';
 import { IMake, IModel, ICar } from '~/interfaces/Car';
 import Search from '~/pages/index';
 import { getPaginatedCars } from '~/database/getPaginatedCars';
-import Pagination from '@material-ui/lab/Pagination';
-import PaginationItem from '@material-ui/lab/PaginationItem';
 import { useRouter } from 'next/router';
-import { PaginationRenderItemParams } from '@material-ui/lab';
-import { ParsedUrlQuery, stringify } from 'querystring';
-import Link from 'next/link';
-import { forwardRef } from 'react';
+import { stringify } from 'querystring';
 import useSWR from 'swr';
 import { useState } from 'react';
 import deepEqual from 'fast-deep-equal';
+import { CarPagination } from '~/components/CarPagination';
 
 interface CarListProps {
   makes: IMake[];
@@ -33,7 +29,7 @@ export default function CarList({
   const { query } = useRouter();
   const [serverQuery] = useState(query);
   const { data } = useSWR(`/api/cars?${stringify(query)}`, {
-    dedupingInterval: 15000,
+    dedupingInterval: 60000,
     initialData: deepEqual(query, serverQuery)
       ? { cars, totalPages }
       : undefined,
@@ -44,42 +40,13 @@ export default function CarList({
         <Search singleColumn makes={makes} models={models} />
       </Grid>
       <Grid item xs={12} sm={7} md={9} lg={10}>
-        <Pagination
-          page={parseInt(getAsString(query.page) || '1')}
-          count={totalPages}
-          renderItem={(item) => (
-            <PaginationItem
-              component={MaterialUiLink}
-              query={query}
-              item={item}
-              {...item}
-            />
-          )}
-        />
+        <CarPagination totalPages={totalPages} />
         <pre>{JSON.stringify({ data, totalPages }, null, 4)}</pre>
+        <CarPagination totalPages={totalPages} />
       </Grid>
     </Grid>
   );
 }
-
-interface MaterialUiLinkProps {
-  item: PaginationRenderItemParams;
-  query: ParsedUrlQuery;
-}
-
-const MaterialUiLink = forwardRef<HTMLAnchorElement, MaterialUiLinkProps>(
-  ({ item, query, ...props }: MaterialUiLinkProps, ref) => (
-    <Link
-      href={{
-        pathname: '/car',
-        query: { ...query, page: item.page },
-      }}
-      shallow
-    >
-      <a ref={ref} {...props}></a>
-    </Link>
-  )
-);
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const param = context.query!.make;
