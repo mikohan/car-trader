@@ -6,6 +6,12 @@ import { GetServerSideProps } from 'next';
 import { IMake, IModel, ICar } from '~/interfaces/Car';
 import Search from '~/pages/index';
 import { getPaginatedCars } from '~/database/getPaginatedCars';
+import Pagination from '@material-ui/lab/Pagination';
+import PaginationItem from '@material-ui/lab/PaginationItem';
+import { useRouter } from 'next/router';
+import { PaginationRenderItemParams } from '@material-ui/lab';
+import { ParsedUrlQuery } from 'querystring';
+import Link from 'next/link';
 
 interface CarListProps {
   makes: IMake[];
@@ -20,15 +26,47 @@ export default function CarList({
   cars,
   totalPages,
 }: CarListProps) {
+  const { query } = useRouter();
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={5} md={3} lg={2}>
         <Search singleColumn makes={makes} models={models} />
       </Grid>
       <Grid item xs={12} sm={7} md={9} lg={10}>
+        <Pagination
+          page={parseInt(getAsString(query.page) || '1')}
+          count={totalPages}
+          renderItem={(item) => (
+            <PaginationItem
+              component={MaterialUiLink}
+              query={query}
+              item={item}
+              {...item}
+            />
+          )}
+        />
         <pre>{JSON.stringify({ cars, totalPages }, null, 4)}</pre>
       </Grid>
     </Grid>
+  );
+}
+
+interface MaterialUiLinkProps {
+  item: PaginationRenderItemParams;
+  query: ParsedUrlQuery;
+}
+
+export function MaterialUiLink({ item, query, ...props }: MaterialUiLinkProps) {
+  return (
+    <Link
+      href={{
+        pathname: '/car',
+        query: { ...query, page: item.page },
+      }}
+      shallow
+    >
+      <a {...props}></a>
+    </Link>
   );
 }
 
