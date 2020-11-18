@@ -1,3 +1,5 @@
+import React from 'react';
+import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { openDB } from '~/openDB';
 import { CarModel } from 'api/Car';
@@ -39,45 +41,51 @@ export default function CarDetails({ car }: CarDetailsProps) {
     return <h1>Sorry car is not found</h1>;
   }
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={7}>
-            <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src={car.photoUrl} />
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="h5">
-                  {`${car.make} ${car.model}`}
-                </Typography>
-                <Typography variant="h4" gutterBottom>
-                  {`$ ${car.price}`}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Year: {car.year}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  ID: {car.id}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Milege: {car.kilometers}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Fuel: {car.fuelType}
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  Fuel: {car.details}
-                </Typography>
+    <React.Fragment>
+      <Head>
+        <title>{`${car.make} ${car.model} ${car.id}`}</title>
+        <meta name="desctiption" content={car.details} />
+      </Head>
+      <div className={classes.root}>
+        <Paper className={classes.paper}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={7}>
+              <ButtonBase className={classes.image}>
+                <img className={classes.img} alt="complex" src={car.photoUrl} />
+              </ButtonBase>
+            </Grid>
+            <Grid item xs={12} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Typography gutterBottom variant="h5">
+                    {`${car.make} ${car.model}`}
+                  </Typography>
+                  <Typography variant="h4" gutterBottom>
+                    {`$ ${car.price}`}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Year: {car.year}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    ID: {car.id}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Milege: {car.kilometers}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Fuel: {car.fuelType}
+                  </Typography>
+                  <Typography variant="body1" color="textSecondary">
+                    Fuel: {car.details}
+                  </Typography>
+                </Grid>
+                <Grid item></Grid>
               </Grid>
-              <Grid item></Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Paper>
-    </div>
+        </Paper>
+      </div>
+    </React.Fragment>
   );
 }
 
