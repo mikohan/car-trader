@@ -40,10 +40,14 @@ export default function CarList({
       <Grid item xs={12} sm={5} md={3} lg={2}>
         <Search singleColumn makes={makes} models={models} />
       </Grid>
-      <Grid item xs={12} sm={7} md={9} lg={10}>
-        <CarPagination totalPages={totalPages} />
+      <Grid container item xs={12} sm={7} md={9} lg={10} spacing={3}>
+        <Grid item xs={12}>
+          <CarPagination totalPages={totalPages} />
+        </Grid>
         {(data?.cars || []).map((car: ICar) => (
-          <CarCard key={car.id} car={car} />
+          <Grid key={car.id} item xs={12} sm={6}>
+            <CarCard car={car} />
+          </Grid>
         ))}
         <CarPagination totalPages={totalPages} />
       </Grid>

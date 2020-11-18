@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       maxWidth: '100%',
-      margin: '16px 0',
     },
     media: {
       height: 0,
@@ -42,7 +41,7 @@ export default function CarCard({ car }: CarCardProps) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={3}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
