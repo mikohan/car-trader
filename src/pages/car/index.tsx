@@ -12,6 +12,7 @@ import useSWR from 'swr';
 import { useState } from 'react';
 import deepEqual from 'fast-deep-equal';
 import { CarPagination } from '~/components/CarPagination';
+import CarCard from '~/components/CarCard';
 
 interface CarListProps {
   makes: IMake[];
@@ -41,7 +42,9 @@ export default function CarList({
       </Grid>
       <Grid item xs={12} sm={7} md={9} lg={10}>
         <CarPagination totalPages={totalPages} />
-        <pre>{JSON.stringify({ data, totalPages }, null, 4)}</pre>
+        {(data?.cars || []).map((car: ICar) => (
+          <CarCard key={car.id} car={car} />
+        ))}
         <CarPagination totalPages={totalPages} />
       </Grid>
     </Grid>
