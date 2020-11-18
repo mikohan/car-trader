@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { PaginationRenderItemParams } from '@material-ui/lab';
 import { ParsedUrlQuery } from 'querystring';
 import Link from 'next/link';
+import { forwardRef } from 'react';
 
 interface CarListProps {
   makes: IMake[];
@@ -56,8 +57,8 @@ interface MaterialUiLinkProps {
   query: ParsedUrlQuery;
 }
 
-export function MaterialUiLink({ item, query, ...props }: MaterialUiLinkProps) {
-  return (
+const MaterialUiLink = forwardRef<HTMLAnchorElement, MaterialUiLinkProps>(
+  ({ item, query, ...props }: MaterialUiLinkProps, ref) => (
     <Link
       href={{
         pathname: '/car',
@@ -65,10 +66,10 @@ export function MaterialUiLink({ item, query, ...props }: MaterialUiLinkProps) {
       }}
       shallow
     >
-      <a {...props}></a>
+      <a ref={ref} {...props}></a>
     </Link>
-  );
-}
+  )
+);
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const param = context.query!.make;
