@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       maxWidth: '100%',
+      margin: '16px 0',
     },
     media: {
       height: 0,
